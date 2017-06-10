@@ -1,10 +1,18 @@
 from abc import abstractmethod, ABCMeta
 from enum import Enum
+from .QTypes import *
 
-EventType = Enum("EventType", "TICK BAR SIGNAL ORDER FILL")
 
 class QBaseEvents(object):
     __metaclass__ = ABCMeta
 
+
     def __init__(self):
-        pass
+        self.loggingEnabled = False
+
+
+    def logEvent(self):
+        
+        if self.loggingEnabled == True:
+
+            print("logging")

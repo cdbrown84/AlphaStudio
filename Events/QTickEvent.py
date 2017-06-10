@@ -1,10 +1,13 @@
 from .QBaseEvents import QBaseEvents
+from .QTypes import *
 
 
-class QTick(QBaseEvents):
+
+class QTickEvent(QBaseEvents):
 
     def __init__(self, timeStamp, symbol, bid, ask, bid_size=None, ask_size=None):
 
+        self.eventType = EventType.Tick
         self.timeStamp = timeStamp
         self.symbol = symbol
         self.bid = bid

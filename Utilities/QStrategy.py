@@ -29,6 +29,10 @@ class QStrategy(object):
 
         raise NotImplementedError("Should implement onOrder()")
 
+    @abstractmethod
+    def execute(self):
+        raise NotImplementedError("Should implement onOrder()")
+
     def runBackTest(self):
         pass
 
