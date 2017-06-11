@@ -1,5 +1,6 @@
 from Q33Trader.DataManager import DataManager
 from Q33Trader.Settings import Config
+import pandas as pd
 import quandl
 import datetime
 
@@ -33,6 +34,20 @@ class QuandlDataHandler(DataManager.DataManager):
         self.processed_data[quandlCode].rename(columns={'Open': quandlCode + '_Open', 'High': quandlCode + '_High', 'Low': quandlCode + '_Low',
                                        'Last': quandlCode + '_Last', 'Volume': quandlCode + '_Volume',
                                        'Previous Day Open Interest': quandlCode + '_Open_Interest'}, inplace=True)
+
+    '''
+        Specifically formatted for Futures Data from SCF eg: SCF/CME_ES1_FN
+    '''
+
+    def getFuturesDataType2(self, quandlCode):
+
+
+        self.processed_data[quandlCode] = self.getQuandlData(quandlCode)
+
+        #self.processed_data[quandlCode].drop({'Settle'}, axis=1, inplace=True)
+        self.processed_data[quandlCode].rename(columns={'Open': quandlCode + '_Open', 'High': quandlCode + '_High', 'Low': quandlCode + '_Low',
+                                       'Settle': quandlCode + '_Last', 'Volume': quandlCode + '_Volume',
+                                       'Prev Day Open Interest': quandlCode + '_Open_Interest'}, inplace=True)
 
     '''
         Specifically formatted for Stocks data from WIKI database
@@ -128,25 +143,34 @@ class QuandlDataHandler(DataManager.DataManager):
             self.dataStatus = DataManager.DataStatus.Complete
 
     def getDataStatus(self):
-        return self.dataStatus
+
+        for key in self.processed_data:
+
+            return self.dataStatus
+
+    # TODO: Create a method which can force fill the missing dates
+    def reIndexData(self):
+
+        if len(self.processed_data) >= 1:
+            for key in self.processed_data:
+                self.processed_data.reindex()
+                self.processed_data
 
 # Testing
 
-
-
-test = QuandlDataHandler(start_date='2010-01-01')
-test.getFuturesDataType1('CHRIS/CME_ES1')
-test.getFuturesDataType1('CHRIS/CME_CL1')
-test.getFuturesDataType1('CHRIS/CME_GC1')
+test = QuandlDataHandler(start_date='2013-01-01', end_date='2013-02-01')
+test.getFuturesDataType2('SCF/CME_ES1_FN')
+test.getFuturesDataType2('SCF/CME_CL1_FN')
+test.getFuturesDataType2('SCF/CME_GC1_FN')
 while test.dataStatus == DataManager.DataStatus.Active:
 
 
-    print(test.getLatestBar('CHRIS/CME_ES1'))
-    print(test.peekNextBar('CHRIS/CME_ES1'))
-    print(test.getLatestBar('CHRIS/CME_CL1'))
-    print(test.peekNextBar('CHRIS/CME_CL1'))
-    print(test.getLatestBar('CHRIS/CME_GC1'))
-    print(test.peekNextBar('CHRIS/CME_GC1'))
+    print(test.getLatestBar('SCF/CME_ES1_FN'))
+    #print(test.peekNextBar('CHRIS/CME_ES1'))
+    print(test.getLatestBar('SCF/CME_CL1_FN'))
+    #print(test.peekNextBar('CHRIS/CME_CL1'))
+    #print(test.getLatestBar('SCF/CME_GC1_FN'))
+    #print(test.peekNextBar('CHRIS/CME_GC1'))
     print("Update all bars: "+str(test.dataStatus))
     test.updateAllBars()
 

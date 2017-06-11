@@ -4,7 +4,7 @@ class QStrategy(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
-        pass
+        self.initialization()
 
     @abstractmethod
     def initialization(self):
