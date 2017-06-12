@@ -4,7 +4,13 @@ class QStrategy(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
+        self.Bar = None
+        self.Tick = None
+        self.Order = None
+        self.Signal = None
+        self.Schedule = None
         self.initialization()
+
 
     @abstractmethod
     def initialization(self):
@@ -12,7 +18,7 @@ class QStrategy(object):
         raise NotImplementedError("Should implement initialization()")
 
     @abstractmethod
-    def onTick(self):
+    def onTick(self, qTick):
         raise NotImplementedError("Should implement onTick()")
 
     @abstractmethod
@@ -21,11 +27,11 @@ class QStrategy(object):
         raise NotImplementedError("Should implement onBar()")
 
     @abstractmethod
-    def scheduler(self, qBar):
+    def scheduler(self):
         raise NotImplementedError("Should implement scheduler()")
 
     @abstractmethod
-    def onOrder(self):
+    def onOrder(self, qOrder):
 
         raise NotImplementedError("Should implement onOrder()")
 
