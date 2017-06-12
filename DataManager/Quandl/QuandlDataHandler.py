@@ -1,5 +1,5 @@
-from Q33Trader.DataManager import DataManager
-from Q33Trader.Settings import Config
+from DataManager import DataManager
+from Settings import Config
 import pandas as pd
 import quandl
 import datetime

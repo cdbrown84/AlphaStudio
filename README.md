@@ -1,1 +1,1 @@
-# Q33Trader
+# Alpha Studio
